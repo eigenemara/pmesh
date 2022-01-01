@@ -103,7 +103,7 @@ class FromMeshio:
         # maps face id to a list of cells id. A face is shared by max. 2 cells.
         self.faceid_to_cellid = {}
 
-        # keeps track of the face if to be processed.
+        # keeps track of the face id to be processed.
         self.current_faceid = 0
 
         # maps face id to the boundary number defined in meshio.mesh.cell_tags
