@@ -27,6 +27,7 @@ For example: at index 23 of `owner` we might see the value `13`, this indicates 
 
 4. neighbor:
 a list of labels that defines neighbor cells to interior faces.
+
 For example: at index 23 of `neighbor` we might see the value `14`, this indicates that cell `14` is also sharing face `23`. Size of neighbor cells is stored in `n_neighbor` attribute.
 
 
