@@ -38,8 +38,8 @@ def test_writing():
     )
     
     file = h5py.File('writing_test.pmesh', 'r')
-    assert file.attrs['nfaces'] == 20
-    assert file.attrs['npoints'] == 18
+    assert file.attrs['n_faces'] == 20
+    assert file.attrs['n_points'] == 18
 
 def test_tetra_wedge():
     _ = pmesh.PMeshConverter(
@@ -56,4 +56,4 @@ def test_tetra_wedge():
         boundary_faces_count += end_face_idx - start_face_idx + 1
     
     assert boundary_faces_count == 272
-    assert file.attrs['npoints'] == 213
+    assert file.attrs['n_points'] == 213
