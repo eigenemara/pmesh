@@ -86,6 +86,7 @@ class FromMeshio:
 
         self.points = self.mesh_raw.points
         self.n_points = len(self.points)
+        self.n_cells = 0
 
         # list of points labels of processed faces (all types)
         self.processed_faces = []
@@ -102,7 +103,7 @@ class FromMeshio:
         # maps face id to a list of cells id. A face is shared by max. 2 cells.
         self.faceid_to_cellid = {}
 
-        # keeps track of the face id to be processed.
+        # keeps track of the face if to be processed.
         self.current_faceid = 0
 
         # maps face id to the boundary number defined in meshio.mesh.cell_tags
@@ -222,6 +223,7 @@ class FromMeshio:
         cells = cell_block[0].data
 
         for cell_id, cell in enumerate(cells):
+            self.n_cells += 1
             faces = faces_list_fn(cell)
             for face in faces:
                 # have we met `face` before?
@@ -410,13 +412,13 @@ class PMeshConverter:
     def write_points(self):
         """Writes mesh points as an HDF dataset"""
         self.output.create_dataset("points", data=self._in_mesh.points)
-        self.output.attrs["npoints"] = self._in_mesh.points.shape[0]
+        self.output.attrs["n_points"] = self._in_mesh.points.shape[0]
 
     def write_faces(self) -> None:
         """Writes mesh faces as a variable length HDF dataset"""
         dtype = h5py.vlen_dtype(np.dtype("int32"))
         self.output.create_dataset("faces", (self._in_mesh.n_faces,), dtype=dtype)
-        self.output.attrs["nfaces"] = len(self._in_mesh.processed_faces)
+        self.output.attrs["n_faces"] = len(self._in_mesh.processed_faces)
         self.write_interior_faces()
         self.write_boundary_faces()
 
@@ -465,6 +467,7 @@ class PMeshConverter:
         owner_d = self.output.create_dataset(
             "owner", (len(self._in_mesh.sorted_faces),), dtype="int"
         )
+        self.output.attrs['n_cells'] = self._in_mesh.n_cells
         for i, faceid in enumerate(self.written_faces_ids):
             owner_d[i] = self._in_mesh.faceid_to_cellid[faceid][0]
 
