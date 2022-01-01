@@ -21,16 +21,17 @@ Currently, pmesh only supports hexahedral, tetrahedral and wedge cells only, pyr
 Example of the outline of a pmesh file:
 
         pmesh
+            n_points (attribute: int)
+            n_faces (attribute: int)
+            n_neighbor(attribute: int)
         ├── points
         │   ├── 0.1, 0.0, 0.0
         │   ├── 0.1, 0.1, 0.0
         │   ├── ...
-        │   └── n_points (attribute)
         ├── faces
         │   ├── 3,1,3,2
         │   ├── 3,2,4,1
         │   ├── ...
-        │   └── n_faces (attribute)
         ├── owner
         │   ├── 0
         │   ├── 2
