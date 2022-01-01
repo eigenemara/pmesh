@@ -13,18 +13,31 @@ Currently, pmesh only supports hexahedral, tetrahedral and wedge cells only, pyr
 
 ## pmesh outline
 1. points: 
-        a list of 3D cartesian coordinates. Size of points is stored in `points\n_points` attribute.
+a list of 3D cartesian coordinates. Size of points is stored in `n_points` attribute.
+
 2. faces: 
-        a list of list of points labels, with the first item in each row is the number of points/vertices that defines the face.
-        Size of faces is stored in `faces\n_faces` attribute.
+a list of list of points labels, with the first item in each row is the number of points/vertices that defines the face. Size of faces is stored in `n_faces` attribute.
+
+For example: an entry in the form `3, 1, 3, 2` indicates a triangular face (first value in the list = 3), remaining labels are the indices of the points that defines such face.
+
+3. owner: 
+a list of of labels of cell that owns which faces.
+
+For example: at index 23 of `owner` we might see the value `13`, this indicates that cell `13` owns face `23`. Size of owner cells is stored in `n_cells` attribute.
+
+4. neighbor:
+a list of labels that defines neighbor cells to interior faces.
+
+For example: at index 23 of `neighbor` we might see the value `14`, this indicates that cell `14` is also sharing face `23`. Size of neighbor cells is stored in `n_neighbor` attribute.
 
 
 Example of the outline of a pmesh file:
 
         pmesh
-            n_points (attribute: int)
-            n_faces (attribute: int)
-            n_neighbor(attribute: int)
+        ├── n_points (attribute: int)
+        ├── n_faces (attribute: int)
+        ├── n_cells (attribute: int)
+        ├── n_neighbor(attribute: int)
         ├── points
         │   ├── 0.1, 0.0, 0.0
         │   ├── 0.1, 0.1, 0.0
